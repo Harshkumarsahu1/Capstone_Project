@@ -1,44 +1,54 @@
-import Nav from "./components/Nav";
-import Slider from "./components/Slider";
-import Home from "./components/Home/Home";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./auth/AuthContext";
+import Navbar from "./components/Nav"; // Navbar Component
 import Footer from "./components/Footer";
-import "./App.css";
-// import { useAuth0 } from "@auth0/auth0-react";
+import Home from "./components/Home/Home";
+import SignIn from "./auth/Forms/SignIn";
+import SignUp from "./auth/Forms/SignUp";
 
-// import Register from "./components/Register";
+// New Components (from Harsh-feature/dashboard-startup/investor)
+import Startup from "./components/Startup/Startup";
+import NewStartup from "./components/Startup/NewStartup";
+import ContactForm from "./components/Message/ContactForm";
+import Resources from "./components/Resources/Resources";
+import StartupPage from "./components/Startup/StartupPage";
+import InvestorDashboard from "./components/Investor/InvestorDashboard";
+import InvestorPage from "./components/Investor/InvestorPage";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Startup } from "./components/Startup/Startup";
-import { NewStartup } from "./components/Startup/NewStartup";
-
-function App() {
-  // const { loginWithRedirect } = useAuth0();
+const App = () => {
   return (
-    <div>
-      {/* <button onClick={() => loginWithRedirect()}>Log In</button>; */}
-      <Nav />
+    <AuthProvider>
       <Router>
+        <Navbar /> {/* Consistent Navbar for the entire app */}
         <Routes>
+          {/* General Routes */}
           <Route
             path="/"
             element={
               <div>
-                {" "}
-                <div className="App">
-                  {" "}
-                  <Slider />{" "}
-                </div>{" "}
-                <Home />{" "}
+                <Home /> {/* Existing Home Component */}
               </div>
             }
           />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+
+          {/* Startup & Resource Management Routes */}
           <Route path="/startups" element={<Startup />} />
           <Route path="/AddNewStartup" element={<NewStartup />} />
+          <Route path="/message" element={<ContactForm />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/StartupPage" element={<StartupPage />} />
+          <Route path="/InvestorPage" element={<InvestorPage />} />
+          <Route path="/InvestorDashboard" element={<InvestorDashboard />} />
+          {/* Duplicate path "/startup-form" for clarity */}
+          {/* <Route path="/startup-form" element={<NewStartup />} /> */}
         </Routes>
+        <Footer /> {/* Consistent Footer for the entire app */}
       </Router>
-      <Footer />
-    </div>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
